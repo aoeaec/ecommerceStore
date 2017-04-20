@@ -7,6 +7,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -15,7 +16,7 @@ import java.util.List;
  */
 
 @Repository
-
+@Transactional
 public class ProductDaoImpl implements ProductDao {
 
     @Autowired
@@ -32,7 +33,8 @@ public class ProductDaoImpl implements ProductDao {
     public Product getProductById(String id) {
         Session session = sessionFactory.getCurrentSession();
         Product product = (Product)session.get(Product.class, id);
-        return null;
+        session.flush();
+        return product;
     }
 
     @Override
